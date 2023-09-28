@@ -53,17 +53,25 @@ class NewsletterId(Resource):
         response =make_response(newsletter_dict,200)
 
         return response
-    # def patch(self,id):
-    #     newsletter =Newsletter.query.get(id)
+    def patch(self,id):
+        newsletter =Newsletter.query.get(id)
 
-    #     for atr in request.form:
-    #         setattr(newsletter,atr,request.form.get(atr))
-    #     db.session.add(newsletter)
-    #     db.session.commit()
-    #     newsletter_dict=newsletter.to_dict
-    #     response=make_response(newsletter_dict,200)
+        for atr in request.form:
+            setattr(newsletter,atr,request.form.get(atr))
+        db.session.add(newsletter)
+        db.session.commit()
+        newsletter_dict=newsletter.to_dict()
+        response=make_response(newsletter_dict,200)
 
-    #     return response    
+        return response    
+    def delete(self,id):
+        newsletter =Newsletter.query.get(id)
+        db.session.delete(newsletter)
+        db.session.commit()
+        message ={"item status":"deleted successfully"}
+        response =make_response(message,200)
+        return response
+
             
 
 api.add_resource(NewsletterId,"/newsletter/<int:id>")
